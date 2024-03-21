@@ -30,6 +30,25 @@ Typecheck's approach to error handling is pragmatic, focusing on practicality an
 
 ## Usage
 
+### Github Actions
+
+To integrate Go Code Typecheck into your GitHub Actions workflow, you can use the action available at the GitHub Marketplace. This action helps in performing type checks on your Go codebase, ensuring type safety and catching potential errors early in the development process.
+
+**Marketplace URL**: [Go Code Typecheck on GitHub Marketplace](https://github.com/marketplace/actions/go-code-typecheck)
+
+**GitHub Repository URL**: [kubecub/typecheck on GitHub](https://github.com/kubecub/typecheck)
+
+To use this action in your workflow, include the following step in your `.github/workflows/<your-workflow>.yml` file:
+
+```yml
+- name: Go Code Typecheck
+  uses: kubecub/typecheck@v1.0.0
+```
+
+The version of the action can be specified by using the tag associated with the desired release of `kubecub/typecheck`. For example, `@v1.0.0` refers to version 0.1.3 of the action.
+
+By incorporating this action into your workflow, you can automatically verify the type correctness of your Go code with every push or pull request, helping maintain code quality and reliability.
+
 ### Locally
 
 To run Typecheck locally, simply use the following command:
