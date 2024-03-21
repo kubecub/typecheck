@@ -10,4 +10,4 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Code Language Detector
-        uses: kubecub/typecheck@latest
+        uses: kubecub/typecheck@main
