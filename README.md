@@ -1,17 +1,17 @@
-# OpenIM Typecheck: Cross-Platform Source Code Type Checking for Go
+# Go Typecheck: Cross-Platform Source Code Type Checking for Go
 
 ## Introduction
 
-OpenIM Typecheck is a robust tool designed for cross-platform source code type checking across all Go build platforms. This utility leverages Go’s built-in parsing and type-check libraries (`go/parser` and `go/types`) to deliver efficient and reliable code analysis.
+Go Typecheck is a robust tool designed for cross-platform source code type checking across all Go build platforms. This utility leverages Go’s built-in parsing and type-check libraries (`go/parser` and `go/types`) to deliver efficient and reliable code analysis.
 
 ## Advantages
 
-- **Speed**: A complete compilation with OpenIM can take approximately 3 minutes. In contrast, OpenIM Typecheck achieves this in mere seconds, significantly enhancing productivity.
+- **Speed**: A complete compilation with Go can take approximately 3 minutes. In contrast, Go Typecheck achieves this in mere seconds, significantly enhancing productivity.
 - **Resource Efficiency**: Unlike the typical requirement of over 40GB of RAM for standard processes, Typecheck operates effectively with less than 8GB of RAM. This reduction in resource consumption makes it highly suitable for a variety of systems, reducing overheads and facilitating smoother operations.
 
 ## Implementation
 
-OpenIM Typecheck employs Go's native parsing and type-checking libraries (`go/parser` and `go/types`). However, it's important to note that these libraries aren't identical to those used by the Go compiler. While occasional mismatches may occur, these libraries generally provide close approximations to the compiler's functionality, offering a reliable basis for type checking.
+Go Typecheck employs Go's native parsing and type-checking libraries (`go/parser` and `go/types`). However, it's important to note that these libraries aren't identical to those used by the Go compiler. While occasional mismatches may occur, these libraries generally provide close approximations to the compiler's functionality, offering a reliable basis for type checking.
 
 ## Error Handling
 
