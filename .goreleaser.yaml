@@ -1,0 +1,222 @@
+# Copyright © 2023 KubeCub open source community. All rights reserved.
+# Licensed under the MIT License (the "License");
+# you may not use this file except in compliance with the License.
+
+before:
+  hooks:
+    # You may remove this if you don't use go modules.
+    - make clean
+    - make tidy
+    - make copyright-add
+    # you may remove this if you don't need go generate
+    - make generate
+
+# The lines beneath this are called `modelines`. See `:help modeline`
+# Feel free to remove those if you don't want/use them.
+# yaml-language-server: $schema=https://goreleaser.com/static/schema.json
+# vim: set ts=2 sw=2 tw=0 fo=cnqoj
+
+snapshot:
+  name_template: "{{ incpatch .Version }}-next"
+
+report_sizes: true
+
+# metadata:
+#   mod_timestamp: "{{ .CommitTimestamp }}"
+
+# Default: './dist'
+dist: _output/dist
+
+builds:
+  - binary: typecheck
+    id: typecheck
+    main: ./typecheck.go
+    goos:
+      - windows
+      - darwin
+      - linux
+      - freebsd
+    goarch:
+      - amd64
+      - 386
+      - arm
+      - arm64
+    goarm:
+      - 6
+      - 7
+
+archives:
+  - format: tar.gz
+    # this name template makes the OS and Arch compatible with the results of uname.
+    name_template: >-
+      {{ .ProjectName }}_
+      {{- title .Os }}_
+      {{- if eq .Arch "amd64" }}x86_64
+      {{- else if eq .Arch "386" }}i386
+      {{- else }}{{ .Arch }}{{ end }}
+      {{- if .Arm }}v{{ .Arm }}{{ end }}
+    # use zip for windows archives
+    files:
+      - LICENSE
+      - README.md
+      - CHANGELOG/*
+      - docs/*
+      # a more complete example, check the globbing deep dive below
+      - src: "*.md"
+        dst: docs
+
+        # Strip parent folders when adding files to the archive.
+        strip_parent: true
+
+        # File info.
+        # Not all fields are supported by all formats available formats.
+        #
+        # Default: copied from the source file
+        info:
+          # Templates: allowed (since v1.14)
+          owner: root
+
+          # Templates: allowed (since v1.14)
+          group: root
+
+          # Must be in time.RFC3339Nano format.
+          #
+          # Templates: allowed (since v1.14)
+          mtime: "{{ .CommitDate }}"
+
+          # File mode.
+          mode: 0644
+
+    format_overrides:
+    - goos: windows
+      format: zip
+
+nfpms:
+  - id: packages
+    builds:
+      - typecheck
+    # Your app's vendor.
+    vendor: kubecub
+    homepage: https://github.com/kubecub/typecheck
+    maintainer: kubbot <https://github.com/kubbot>
+    description: |-
+      Comment Lang Detector is a tool to detect the language of comments in code files.
+      Kubecub && cubxxw
+    license: MIT
+    formats:
+      - apk
+      - deb
+      - rpm
+      - termux.deb # Since: v1.11
+      - archlinux # Since: v1.13
+    dependencies:
+      - git
+    recommends:
+      - golang
+
+changelog:
+  sort: asc
+  use: github
+  filters:
+    exclude:
+      - "^test:"
+      - "^chore"
+      - "merge conflict"
+      - Merge pull request
+      - Merge remote-tracking branch
+      - Merge branch
+      - go mod tidy
+  groups:
+    - title: Dependency updates
+      regexp: '^.*?(feat|fix)\(deps\)!?:.+$'
+      order: 300
+    - title: "New Features"
+      regexp: '^.*?feat(\([[:word:]]+\))??!?:.+$'
+      order: 100
+    - title: "Security updates"
+      regexp: '^.*?sec(\([[:word:]]+\))??!?:.+$'
+      order: 150
+    - title: "Bug fixes"
+      regexp: '^.*?fix(\([[:word:]]+\))??!?:.+$'
+      order: 200
+    - title: "Documentation updates"
+      regexp: ^.*?doc(\([[:word:]]+\))??!?:.+$
+      order: 400
+    - title: "Build process updates"
+      regexp: ^.*?build(\([[:word:]]+\))??!?:.+$
+      order: 400
+    - title: Other work
+      order: 9999
+
+# # semantization
+# snapcrafts:
+#   - name_template: "{{ .ProjectName }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}"
+#     summary: sync labels
+#     description: |
+#       sync labels
+#     grade: stable
+#     confinement: classic
+#     publish: true
+
+# sboms:
+  # - artifacts: archive
+
+# signs:
+# - cmd: cosign
+#   stdin: '{{ .Env.COSIGN_PWD }}'
+#   args:
+#   - "sign-blob"
+#   - "--key=cosign.key"
+#   - "--output-signature=${signature}"
+#   - "${artifact}"
+#   - "--yes" # needed on cosign 2.0.0+
+#   artifacts: all
+
+# docker_signs:
+
+
+# .goreleaser.yaml
+milestones:
+  # You can have multiple milestone configs
+  -
+    # Repository for the milestone
+    # Default is extracted from the origin remote URL
+    repo:
+      owner: user
+      name: repo
+
+    # Whether to close the milestone
+    close: true
+
+    # Fail release on errors, such as missing milestone.
+    fail_on_error: false
+
+    # Name of the milestone
+    #
+    # Default: '{{ .Tag }}'
+    name_template: "Current Release"
+
+publishers:
+  - name: "fury.io"
+    ids:
+      - packages
+    dir: "{{ dir .ArtifactPath }}"
+    cmd: |
+      bash -c '
+      if [[ "{{ .Tag }}" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+        curl -F package=@{{ .ArtifactName }} https://{{ .Env.FURY_TOKEN }}@push.fury.io/{{ .Env.USERNAME }}/
+      else
+        echo "Skipping deployment: Non-production release detected"
+      fi'
+
+checksum:
+  name_template: "{{ .ProjectName }}_checksums.txt"
+  algorithm: sha256
+
+release:
+  footer: |
+    **Full Changelog**: https://github.com/kubecub/typecheck/compare/{{ .PreviousTag }}...{{ .Tag }}
+
+    ## Helping out
+
+    This release is only possible thanks to **all** the support of some **awesome people**!
