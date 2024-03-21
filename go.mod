@@ -1,4 +1,4 @@
-module kubecub/typecheck
+module github.com/kubecub/typecheck
 
 go 1.19
 
