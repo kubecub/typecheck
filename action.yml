@@ -2,8 +2,8 @@
 # Licensed under the MIT License (the "License");
 # you may not use this file except in compliance with the License.
 
-name: 'Code Language Detector'
-description: 'Detects specified languages in comments within code files.'
+name: 'Go Code Typecheck'
+description: 'Typecheck is a robust tool designed for cross-platform source code type checking across all Go build platforms. This utility leverages Go’s built-in parsing and type-check libraries (`go/parser` and `go/types`) to deliver efficient and reliable code analysis.'
 inputs:
   go-version:
     description: 'The version of Go to use for running the detector.'
@@ -32,7 +32,7 @@ runs:
       run: go install github.com/kubecub/typecheck@${{ inputs.detector-version }}
       shell: bash
 
-    - name: Run Comment Language Detector
+    - name: Run typecheck
       run: typecheck
       shell: bash
 
