@@ -1,0 +1,22 @@
+name: Type Check
+
+on: [push, pull_request]
+
+jobs:
+  comment-language-detector:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: '^1.21'
+
+      - name: Install typecheck
+        run: |
+          go install github.com/kubecub/typecheck@latest
+
+      - name: Run typecheck Detector
+        run: typecheck
