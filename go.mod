@@ -1,4 +1,4 @@
-module github.com/openimsdk/open-im-server/test/typecheck
+module kubecub/typecheck
 
 go 1.19
 
