@@ -3,7 +3,7 @@
 # you may not use this file except in compliance with the License.
 
 name: 'Go Code Typecheck'
-description: 'Typecheck is a robust tool designed for cross-platform source code type checking across all Go build platforms. This utility leverages Go’s built-in parsing and type-check libraries (`go/parser` and `go/types`) to deliver efficient and reliable code analysis.'
+description: 'Typecheck is a robust cross-platform tool for Go code type checking, leveraging built-in parsing and type-check libraries (go/parser and go/types) for efficient analysis.'
 inputs:
   go-version:
     description: 'The version of Go to use for running the detector.'
