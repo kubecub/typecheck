@@ -2,15 +2,6 @@
 # Licensed under the MIT License (the "License");
 # you may not use this file except in compliance with the License.
 
-before:
-  hooks:
-    # You may remove this if you don't use go modules.
-    - make clean
-    - make tidy
-    - make copyright-add
-    # you may remove this if you don't need go generate
-    - make generate
-
 # The lines beneath this are called `modelines`. See `:help modeline`
 # Feel free to remove those if you don't want/use them.
 # yaml-language-server: $schema=https://goreleaser.com/static/schema.json
