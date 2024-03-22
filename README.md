@@ -45,6 +45,27 @@ To use this action in your workflow, include the following step in your `.github
   uses: kubecub/typecheck@v1.0.0
 ```
 
+**Full case presentation:**
+
+1. Create a Workflow File: In your GitHub repository, create a new file in the .github/workflows directory. You can name it anything, but for clarity, we'll call it type-check.yml.
+2. Add Workflow Content: Copy the following YAML content into your type-check.yml file. This defines a workflow that uses the "Type Check" action on every push and pull_request event to your repository.
+
+```yaml
+name: Go Type Check
+
+on: [push, pull_request]
+
+jobs:
+  go-language-code-typechecker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Code Typecheck Detector
+        uses: kubecub/typecheck@main
+```
+
 The version of the action can be specified by using the tag associated with the desired release of `kubecub/typecheck`. For example, `@v1.0.0` refers to version 0.1.3 of the action.
 
 By incorporating this action into your workflow, you can automatically verify the type correctness of your Go code with every push or pull request, helping maintain code quality and reliability.
@@ -53,8 +74,11 @@ By incorporating this action into your workflow, you can automatically verify th
 
 To run Typecheck locally, simply use the following command:
 
+First, go to the repository of code you need to examine：
+
 ```bash
-make verify
+go install github.com/kubecub/typecheck@latest
+typecheck
 ```
 
 ### Continuous Integration (CI)
