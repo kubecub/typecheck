@@ -6,8 +6,6 @@ name: Go Typecheck Release Version
 
 on:
   push:
-    branches:
-      - 'main'
     tags:
       - 'v*'
 
