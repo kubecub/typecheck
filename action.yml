@@ -1,10 +1,6 @@
 name: 'Type Check'
 description: 'Detects the language of comments in your code and checks types.'
-author: 'Your Name'
-inputs:
-  # You can define inputs here, but it seems your action doesn't require any user-defined inputs.
-outputs:
-  # If your action produces outputs, define them here.
+author: 'cubxxw'
 runs:
   using: 'composite'
   steps:
