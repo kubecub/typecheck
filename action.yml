@@ -1,19 +1,10 @@
-# Copyright © 2024 KubeCub open source community. All rights reserved.
-# Licensed under the MIT License (the "License");
-# you may not use this file except in compliance with the License.
-
-name: 'Go Code Typecheck'
-description: 'Efficient Go code type checking tool using native parsing and type-check libraries (`go/parser` and `go/types`).'
+name: 'Type Check'
+description: 'Detects the language of comments in your code and checks types.'
+author: 'Your Name'
 inputs:
-  go-version:
-    description: 'The version of Go to use for running the detector.'
-    required: true
-    default: '1.22'
-  detector-version:
-    description: 'The version of the Comment Language Detector to install.'
-    required: false
-    default: 'latest'
-
+  # You can define inputs here, but it seems your action doesn't require any user-defined inputs.
+outputs:
+  # If your action produces outputs, define them here.
 runs:
   using: 'composite'
   steps:
@@ -23,16 +14,20 @@ runs:
     - name: Set up Go
       uses: actions/setup-go@v5
       with:
-        go-version: ${{ inputs.go-version }}
+        go-version: '1.21'
 
-    - name: Install Comment Language Detector
-      run: go install github.com/kubecub/typecheck@${{ inputs.detector-version }}
+    - name: Install typecheck
+      run: go install github.com/kubecub/typecheck@latest
       shell: bash
 
-    - name: Run typecheck
+    - name: Run typecheck Detector
       run: typecheck
       shell: bash
 
 branding:
-  icon: 'search'
+  icon: 'check-square'
   color: 'blue'
+
+
+# homepage: 'http://github.com/kubecub'
+# repository: 'http://github.com/kubecub/typecheck'
